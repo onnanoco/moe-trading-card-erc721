@@ -6,19 +6,19 @@ require("dotenv").config();
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-    defaultNetwork: "mumbai",
+    defaultNetwork: "goerli",
     networks: {
-        polygon: {
-            url: process.env.POLYGON_RPC_ENDPOINT,
-            accounts: [process.env.POLYGON_PRIVATE_KEY],
-            chainId: 137,
+        ethereum: {
+            url: process.env.ETHEREUM_RPC_ENDPOINT,
+            accounts: [process.env.ETHEREUM_PRIVATE_KEY],
+            chainId: 1,
             gas: "auto",
             gasPrice: "auto"
         },
-        mumbai: {
-            url: process.env.MUMBAI_RPC_ENDPOINT,
-            accounts: [process.env.MUMBAI_PRIVATE_KEY],
-            chainId: 80001,
+        goerli: {
+            url: process.env.GOERLI_RPC_ENDPOINT,
+            accounts: [process.env.GOERLI_PRIVATE_KEY],
+            chainId: 5,
             gas: "auto",
             gasPrice: "auto"
         }
