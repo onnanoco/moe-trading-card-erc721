@@ -53,7 +53,7 @@ contract MoeErc721 is ERC721 {
     uint256 public constant fee = 10**18;
     address public immutable moeErc20Address;
 
-    mapping (uint256 => NftInfo[]) public nftInfo;
+    mapping (uint256 => NftInfo) public nftInfo;
     
     constructor(string memory _name, string memory _symbol, address _moeErc20Address) ERC721(_name, _symbol) {
         moeErc20Address = _moeErc20Address;
@@ -74,7 +74,7 @@ contract MoeErc721 is ERC721 {
         return nftInfo[_tokenId].uri;
     }
 
-    function jsonId(uint256 _tokenId) public view returns (bytes4 memory) {
+    function jsonId(uint256 _tokenId) public view returns (bytes4) {
         _requireMinted(_tokenId);
 
         return nftInfo[_tokenId].jsonId;

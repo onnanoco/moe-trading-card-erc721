@@ -24,6 +24,6 @@ npx hardhat run --network {ethereum||sepolia} "scripts/deploy.js"
 ## Verify
 
 ```bash
-npx hardhat verify --constructor-args arguments.js --contract "contracts/MoeErc20.sol:MoeErc20" --network {ethereum||sepolia} {CONTRACT_ADDRESS}
+npx hardhat verify --constructor-args arguments.js --contract "contracts/MoeErc721.sol:MoeErc721" --network {ethereum||sepolia} {CONTRACT_ADDRESS}
 ```
 
