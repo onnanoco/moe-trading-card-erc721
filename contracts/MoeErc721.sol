@@ -55,15 +55,8 @@ contract MoeErc721 is ERC721 {
 
     mapping (uint256 => NftInfo[]) public nftInfo;
     
-
     constructor(string memory _name, string memory _symbol, address _moeErc20Address) ERC721(_name, _symbol) {
         moeErc20Address = _moeErc20Address;
-    }
-
-    // Modifier
-    modifier onlyOwner(uint256 _tokenId) {
-        require(_isApprovedOrOwner(msg.sender, _tokenId), "MOE: caller is not token owner or approved");
-        _;
     }
 
     function mint(address _to, bytes4 _jsonId, string memory _uri) public {
@@ -86,7 +79,5 @@ contract MoeErc721 is ERC721 {
 
         return nftInfo[_tokenId].jsonId;
     }
-
-
 
 }
