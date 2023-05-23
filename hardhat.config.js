@@ -6,7 +6,7 @@ require("dotenv").config();
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-    defaultNetwork: "goerli",
+    defaultNetwork: "sepolia",
     networks: {
         ethereum: {
             url: process.env.ETHEREUM_RPC_ENDPOINT,
@@ -15,10 +15,10 @@ module.exports = {
             gas: "auto",
             gasPrice: "auto"
         },
-        goerli: {
-            url: process.env.GOERLI_RPC_ENDPOINT,
-            accounts: [process.env.GOERLI_PRIVATE_KEY],
-            chainId: 5,
+        sepolia: {
+            url: process.env.SEPOLIA_RPC_ENDPOINT,
+            accounts: [process.env.SEPOLIA_PRIVATE_KEY],
+            chainId: 11155111,
             gas: "auto",
             gasPrice: "auto"
         }
