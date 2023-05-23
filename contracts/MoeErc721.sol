@@ -66,11 +66,6 @@ contract MoeErc721 is ERC721 {
         _tokenIdTracker.increment();
     }
 
-    // Update character data
-    function update(uint256 tokenId) public onlyOwner(tokenId) {
-        // TODO
-    }
-
 
 
 }
