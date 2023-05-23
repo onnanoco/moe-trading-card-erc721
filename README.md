@@ -1,13 +1,13 @@
-# MOEスマートコントラクト(ERC721)
+# MOE Token(ERC721)
 
-- Name: MOE Character NFT
+- Name: MOE NFT
 - Symbol: MOENFT
 - TYPE : ERC721
 - Contract address: 
-- Hardhatを使用します。
+- Hardhat
 - SOLC version: 0.8.19
 
-## Dependencies
+## Env.
 
 ```bash
 npm install
@@ -18,12 +18,12 @@ vi .env
 ## Deploy
 
 ```bssh
-npx hardhat run --network {ethereum||goerli} "scripts/deploy.js"
+npx hardhat run --network {ethereum||sepolia} "scripts/deploy.js"
 ```
 
 ## Verify
 
 ```bash
-npx hardhat verify --constructor-args arguments.js --contract "contracts/MoeErc20.sol:MoeErc20" --network {ethereum||goerli} {CONTRACT_ADDRESS}
+npx hardhat verify --constructor-args arguments.js --contract "contracts/MoeErc20.sol:MoeErc20" --network {ethereum||sepolia} {CONTRACT_ADDRESS}
 ```
 
