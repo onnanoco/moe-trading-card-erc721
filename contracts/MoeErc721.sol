@@ -59,25 +59,31 @@ contract MoeErc721 is ERC721 {
         moeErc20Address = _moeErc20Address;
     }
 
-    function mint(address _to, bytes4 _jsonId, string memory _uri) public {
+    function mint(address to, bytes4 jsonId, string memory uri) public {
         ERC20 moeErc20 = ERC20(moeErc20Address);
         require(moeErc20.balanceOf(msg.sender) >= fee, "MOE: insufficient MOE balance");
-        moeErc20.transfer(address(0), fee);
-        _mint(_to, _tokenIdTracker.current());
-        nftInfo[_tokenIdTracker.current()] = NftInfo(_jsonId, _uri);
+        moeErc20.transferFrom(msg.sender, address(this), fee);
+        _mint(to, _tokenIdTracker.current());
+        nftInfo[_tokenIdTracker.current()] = NftInfo(jsonId, uri);
         _tokenIdTracker.increment();
     }
 
-    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
-        _requireMinted(_tokenId);
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        _requireMinted(tokenId);
 
-        return nftInfo[_tokenId].uri;
+        return nftInfo[tokenId].uri;
     }
 
-    function jsonId(uint256 _tokenId) public view returns (bytes4) {
-        _requireMinted(_tokenId);
+    function tokenJsonId(uint256 tokenId) public view returns (bytes4) {
+        _requireMinted(tokenId);
 
-        return nftInfo[_tokenId].jsonId;
+        return nftInfo[tokenId].jsonId;
+    }
+
+    function totalBurnt() public view returns (uint256) {
+        ERC20 moeErc20 = ERC20(moeErc20Address);
+
+        return  moeErc20.balanceOf(address(this));
     }
 
 }
