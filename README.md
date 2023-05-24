@@ -1,9 +1,10 @@
 # MOE Token(ERC721)
 
-- Name: MOE NFT
-- Symbol: MOENFT
-- TYPE : ERC721
+- Name: MOE Trading Card
+- Symbol: MOETCG
+- TYPE: ERC721
 - Contract address: 
+- Testnet(Sepolia) contract address: 0x6fED12485dAd32c2f86E8278D95DD9004c774FB7
 - Hardhat
 - SOLC version: 0.8.19
 
