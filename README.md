@@ -1,6 +1,6 @@
 # MOE Token(ERC721)
 
-- Name: MOE Trading Card
+- Name: MOE TRADING CARD
 - Symbol: MOETCG
 - TYPE: ERC721
 - Contract address: 
