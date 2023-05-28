@@ -4,7 +4,7 @@
 - Symbol: MOETCG
 - TYPE: ERC721
 - Contract address: 
-- Testnet(Sepolia) contract address: 0x6BE6F902B0CC73382fB20a77A6490cD477520EBF
+- Testnet(Sepolia) contract address: 0xD79C48C54fce96486e3f1F90dB81CFd4EF0e1496
 - Hardhat
 - SOLC version: 0.8.19
 
