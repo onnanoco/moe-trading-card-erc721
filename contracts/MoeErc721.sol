@@ -43,6 +43,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 struct NftInfo {
     bytes4 jsonId;
     string uri;
+    bool isSecondaryCreation;
 }
 
 contract MoeErc721 is ERC721 {
@@ -59,12 +60,12 @@ contract MoeErc721 is ERC721 {
         moeErc20Address = _moeErc20Address;
     }
 
-    function mint(address to, bytes4 jsonId, string memory uri) public {
+    function mint(address to, bytes4 jsonId, string memory uri, bool isSecondaryCreation) public {
         ERC20 moeErc20 = ERC20(moeErc20Address);
         require(moeErc20.balanceOf(msg.sender) >= fee, "MOE: insufficient MOE balance");
         moeErc20.transferFrom(msg.sender, address(this), fee);
         _mint(to, _tokenIdTracker.current());
-        nftInfo[_tokenIdTracker.current()] = NftInfo(jsonId, uri);
+        nftInfo[_tokenIdTracker.current()] = NftInfo(jsonId, uri, isSecondaryCreation);
         _tokenIdTracker.increment();
     }
 
@@ -78,6 +79,12 @@ contract MoeErc721 is ERC721 {
         _requireMinted(tokenId);
 
         return nftInfo[tokenId].jsonId;
+    }
+
+    function tokenIsSecondaryCreation(uint256 tokenId) public view returns (bool) {
+        _requireMinted(tokenId);
+
+        return nftInfo[tokenId].isSecondaryCreation;
     }
 
     function totalBurnt() public view returns (uint256) {
