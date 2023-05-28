@@ -3,7 +3,7 @@
 - Name: MOE TRADING CARD
 - Symbol: MOETCG
 - TYPE: ERC721
-- Contract address: 
+- Contract address: 0x12B9c5b74b195731BC64a8aC3A43550d808f50a8
 - Testnet(Sepolia) contract address: 0xD79C48C54fce96486e3f1F90dB81CFd4EF0e1496
 - Hardhat
 - SOLC version: 0.8.19
