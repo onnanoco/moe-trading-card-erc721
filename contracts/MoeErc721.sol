@@ -41,6 +41,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 struct NftInfo {
+    uint256 moe;
     string uri;
     string originalCreator;
     bytes4 jsonId;
@@ -61,13 +62,42 @@ contract MoeErc721 is ERC721 {
         moeErc20Address = _moeErc20Address;
     }
 
-    function mint(address to, string memory uri, string memory originalCreator, bytes4 jsonId,  bool isSecondaryCreation) public {
+    function mint(address to, uint256 moe, string memory uri, string memory originalCreator, bytes4 jsonId,  bool isSecondaryCreation) public {
         ERC20 moeErc20 = ERC20(moeErc20Address);
-        require(moeErc20.balanceOf(msg.sender) >= fee, "MOE: insufficient MOE balance");
-        moeErc20.transferFrom(msg.sender, address(this), fee);
+        require(moeErc20.balanceOf(_msgSender()) >= moe, "MOE: insufficient MOE balance");
+        require(moe >= fee, "MOE: a minimum of 1 MOE is required");
+        moeErc20.transferFrom(_msgSender(), address(this), moe);
         _mint(to, _tokenIdTracker.current());
-        nftInfo[_tokenIdTracker.current()] = NftInfo(uri, originalCreator, jsonId, isSecondaryCreation);
+        nftInfo[_tokenIdTracker.current()] = NftInfo(moe, uri, originalCreator, jsonId, isSecondaryCreation);
         _tokenIdTracker.increment();
+    }
+
+    function addMoe(uint256 moe, uint256 tokenId) public {
+        _requireMinted(tokenId);
+        require(moe > 0, "MOE: enter the additional amount of MOE");
+        require(_ownerOf(tokenId) == _msgSender(), "MOE: caller is not token owner");
+
+        ERC20 moeErc20 = ERC20(moeErc20Address);
+        require(moeErc20.balanceOf(_msgSender()) >= moe, "MOE: insufficient MOE balance");
+
+        moeErc20.transferFrom(_msgSender(), address(this), moe);
+        nftInfo[tokenId].moe += moe;
+    }
+
+    function removeMoe(uint256 moe, uint256 tokenId) public {
+        _requireMinted(tokenId);
+        require(moe <= (nftInfo[tokenId].moe - fee) && moe > 0, "MOE: cannot reduce the amount of MOE");
+        require(_ownerOf(tokenId) == _msgSender(), "MOE: caller is not token owner");
+
+        nftInfo[tokenId].moe -= moe;
+        ERC20 moeErc20 = ERC20(moeErc20Address);
+        moeErc20.transfer(_msgSender(), moe);
+    }
+
+    function tokenMoe(uint256 tokenId) public view returns (uint256) {
+        _requireMinted(tokenId);
+
+        return nftInfo[tokenId].moe;
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
@@ -92,12 +122,6 @@ contract MoeErc721 is ERC721 {
         _requireMinted(tokenId);
 
         return nftInfo[tokenId].isSecondaryCreation;
-    }
-
-    function totalBurnt() public view returns (uint256) {
-        ERC20 moeErc20 = ERC20(moeErc20Address);
-
-        return  moeErc20.balanceOf(address(this));
     }
 
 }
