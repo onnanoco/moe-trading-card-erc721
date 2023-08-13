@@ -45,6 +45,7 @@ struct NftInfo {
     string uri;
     string originalCreator;
     bytes4 jsonId;
+    bool isOriginal;
     bool isSecondaryCreation;
 }
 
@@ -62,13 +63,13 @@ contract MoeErc721 is ERC721 {
         moeErc20Address = _moeErc20Address;
     }
 
-    function mint(address to, uint256 moe, string memory uri, string memory originalCreator, bytes4 jsonId,  bool isSecondaryCreation) public {
+    function mint(address to, uint256 moe, string memory uri, string memory originalCreator, bytes4 jsonId, bool isOriginal,  bool isSecondaryCreation) public {
         ERC20 moeErc20 = ERC20(moeErc20Address);
         require(moeErc20.balanceOf(_msgSender()) >= moe, "MOE: insufficient MOE balance");
         require(moe >= fee, "MOE: a minimum of 1 MOE is required");
         moeErc20.transferFrom(_msgSender(), address(this), moe);
         _mint(to, _tokenIdTracker.current());
-        nftInfo[_tokenIdTracker.current()] = NftInfo(moe, uri, originalCreator, jsonId, isSecondaryCreation);
+        nftInfo[_tokenIdTracker.current()] = NftInfo(moe, uri, originalCreator, jsonId, isOriginal, isSecondaryCreation);
         _tokenIdTracker.increment();
     }
 
@@ -118,6 +119,12 @@ contract MoeErc721 is ERC721 {
         return nftInfo[tokenId].jsonId;
     }
 
+    function tokenIsOriginal(uint256 tokenId) public view returns (bool) {
+        _requireMinted(tokenId);
+
+        return nftInfo[tokenId].isOriginal; 
+    }
+    
     function tokenIsSecondaryCreation(uint256 tokenId) public view returns (bool) {
         _requireMinted(tokenId);
 
